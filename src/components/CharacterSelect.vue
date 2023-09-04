@@ -13,31 +13,45 @@
 
 <script>
 import { mande } from "mande";
+import { useCharacterStore } from "../stores/characterStore";
 
 export default {
-  data() {
-    return {
-      characters: [],
-      selectedCharacter: "",
-      apiKey: import.meta.env.VITE_PUBLIC_KEY,
-    };
-  },
-  mounted() {
-    this.getCharacters();
-  },
-  methods: {
-    async getCharacters() {
-      const api = mande(
-        `https://gateway.marvel.com:443/v1/public/characters?apikey=${this.apiKey}`
-      );
+  setup() {
+    const store = useCharacterStore();
+    const characters = ref([]);
+    const selectedCharacter = ref(store.selectedCharacter);
+    const api = mande(
+      `https://gateway.marvel.com:443/v1/public/characters?apikey=${this.apiKey}`
+    );
+
+    async function getCharacters() {
       try {
         const response = await api.get();
-        this.characters = response.data.results;
+        characters.value = response.data.results;
       } catch (error) {
         console.error("Error fetching characters:", error);
         // algunas cosas aquí
       }
-    },
+    }
+
+    function selectCharacter(character) {
+      store.selectedCharacter = character;
+    }
+
+    watch(
+      () => store.selectedCharacter,
+      (newCharacter) => {
+        selectedCharacter.value = newCharacter;
+      }
+    );
+
+    getCharacters();
+
+    return {
+      characters,
+      selectedCharacter,
+      setSelectedCharacter,
+    };
   },
 };
 </script>
