@@ -1,21 +1,8 @@
 <template>
   <div class="character-viewer" v-if="characterStore.selectedCharacter">
-    <v-card class="character-card">
-      <div class="character-details">
-        <h2 class="character-title">
-          {{ characterStore.selectedCharacter.name }}
-        </h2>
-        <p class="character-description">
-          {{ characterStore.selectedCharacter.description }}
-        </p>
-      </div>
-      <div class="character-img-container">
-        <img
-          class="character-img"
-          :src="`${characterStore.selectedCharacter.thumbnail.path}.${characterStore.selectedCharacter.thumbnail.extension}`"
-        />
-      </div>
-    </v-card>
+    <div class="card-holder">
+      <Details :character="characterStore.selectedCharacter" />
+    </div>
 
     <div class="comic-selector">
       <v-select
@@ -25,6 +12,7 @@
         :items="characterStore.selectedCharacter.comics.items"
         item-title="name"
         @update:model-value="handleComicSelection"
+        :menu-props="{ bottom: true }"
       ></v-select>
       <v-select
         v-if="characterStore.selectedCharacter.series"
@@ -33,6 +21,7 @@
         :items="characterStore.selectedCharacter.series.items"
         item-title="name"
         @update:model-value="handleSeriesSelection"
+        :menu-props="{ bottom: true }"
       ></v-select>
     </div>
   </div>
@@ -41,18 +30,12 @@
 </template>
 
 <script setup>
-import { useCharacterStore } from "../stores/characterStore";
+import { useCharacterStore } from "@/stores/characterStore";
 import { watch } from "vue";
 
-const characterStore = useCharacterStore();
+import Details from "./components/character/Details.vue";
 
-watch(
-  () => characterStore.selectedCharacter,
-  (newSelectedCharacter, oldSelectedCharacter) => {
-    console.log("Showing deets for: ", newSelectedCharacter);
-    console.log("old character here: ", oldSelectedCharacter);
-  }
-);
+const characterStore = useCharacterStore();
 </script>
 
 <style scoped>

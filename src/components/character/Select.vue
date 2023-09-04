@@ -13,7 +13,7 @@
 </template>
 
 <script setup>
-import { useCharacterStore } from "../stores/characterStore";
+import { useCharacterStore } from "@/stores/characterStore";
 import { onMounted } from "vue";
 import { mande } from "mande";
 

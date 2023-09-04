@@ -1,17 +1,17 @@
 <template>
   <v-app>
     <v-main>
-      <CharacterSelect />
+      <Select />
       <!-- <p>Selected character: {{ selectedCharacter.name }}</p> -->
-      <CharacterDetails />
+      <CharacterViewer />
     </v-main>
   </v-app>
 </template>
 
 <script setup>
-import CharacterSelect from "./components/CharacterSelect.vue";
-import CharacterDetails from "./components/CharacterDetails.vue";
-import { useCharacterStore } from "./stores/characterStore";
+import Select from "./components/character/Select.vue";
+import CharacterViewer from "./CharacterViewer.vue";
+import { useCharacterStore } from "@/stores/characterStore";
 
 import { ref, watch } from "vue";
 

@@ -5,6 +5,7 @@ export const useCharacterStore = defineStore("CharacterStore", () => {
   const characters = ref([]);
   const selectedCharacter = ref(null);
 
+  const entryHasBeenSelected = ref(false);
   const comicHasBeenSelected = ref(false);
   const seriesHasBeenSelected = ref(false);
 
