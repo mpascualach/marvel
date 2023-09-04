@@ -8,7 +8,7 @@
       <div class="entry-selectors">
         <v-select
           v-if="characterStore.selectedCharacter.comics"
-          variant="outlined"
+          variant="solo"
           label="Comics"
           :items="characterStore.selectedCharacter.comics.items"
           item-title="name"
@@ -17,7 +17,7 @@
         ></v-select>
         <v-select
           v-if="characterStore.selectedCharacter.series"
-          variant="outlined"
+          variant="solo"
           label="Series"
           :items="characterStore.selectedCharacter.series.items"
           item-title="name"
@@ -25,9 +25,18 @@
           :menu-props="{ bottom: true }"
         ></v-select>
       </div>
-      <div class="entry-details">
-        <v-card> </v-card>
-      </div>
+
+      <v-card v-if="characterStore.entrySelected" class="entry">
+        <div class="content comic"></div>
+        <div class="content series" v-if="characterStore.selectedSeries">
+          <h2>{{ characterStore.selectedSeries.title }}</h2>
+          <p>{{ characterStore.selectedSeries.description }}</p>
+          <p>
+            Run date: {{ characterStore.selectedSeries.startYear }} -
+            {{ characterStore.selectedSeries.endYear }}
+          </p>
+        </div>
+      </v-card>
     </div>
   </div>
 
@@ -111,14 +120,31 @@ const handleSeriesSelection = async (selectedValue) => {
 <style scoped>
 .character-viewer {
   padding: 0px 40px;
+  display: flex;
+  gap: 20px;
+  height: 80vh;
 }
 .card-holder {
-  margin-bottom: 20px;
+  width: 50%;
+  height: 100%;
 }
 
-.entry-selectors {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 20px;
+.entry-viewer {
+  width: 50%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.entry {
+  flex: 1 1 0%;
+  padding: 10px 20px;
+}
+
+.content {
+  flex: 1 1 0%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 </style>
