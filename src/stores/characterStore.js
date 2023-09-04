@@ -5,10 +5,20 @@ export const useCharacterStore = defineStore("CharacterStore", () => {
   const characters = ref([]);
   const selectedCharacter = ref(null);
 
+  const comicHasBeenSelected = ref(false);
+  const seriesHasBeenSelected = ref(false);
+
   const selectedComic = ref(null);
   const selectedSeries = ref(null);
 
-  return { characters, selectedCharacter, selectedComic, selectedSeries };
+  return {
+    characters,
+    selectedCharacter,
+    comicHasBeenSelected,
+    seriesHasBeenSelected,
+    selectedComic,
+    selectedSeries,
+  };
 });
 
 export default useCharacterStore;
