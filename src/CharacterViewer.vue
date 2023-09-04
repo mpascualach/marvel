@@ -42,50 +42,13 @@ const characterStore = useCharacterStore();
 .character-viewer {
   padding: 0px 40px;
 }
-.character-card {
-  display: grid;
-  grid-template-columns: auto 1fr;
-  gap: 20px;
-}
 
-.character-img-container {
-  width: 200px;
-  height: 250px;
-  border-radius: 10px;
-  position: relative;
-  margin: 20px;
+.card-holder {
+  margin-bottom: 20px;
 }
-
-.character-img {
-  max-width: 100%;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  position: absolute;
-  top: 0;
-  right: 0;
-}
-
-.character-title {
-  font-size: 1.5rem;
-  margin-top: 0;
-}
-
-.character-details {
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.character-description {
-  text-align: justify;
-}
-
-.comic-selector {
-  display: flex;
-}
-
-.comic-selector > .v-select {
-  margin: 10px;
+@media (max-width: 1105px) {
+  .character-viewer {
+    grid-template-columns: 1fr;
+  }
 }
 </style>

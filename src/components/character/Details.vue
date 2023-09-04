@@ -5,7 +5,9 @@
         {{ character.name }}
       </h2>
       <p class="character-description">
-        {{ character.description }}
+        {{
+          character.description || "Este personaje es un misterio completo..."
+        }}
       </p>
     </div>
     <div class="character-img-container">
@@ -28,3 +30,53 @@ watch(props.character, (newCharacter, oldCharacter) => {
   console.log("Character prop changed:", newCharacter, oldCharacter);
 });
 </script>
+
+<style scoped>
+.character-card {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.character-img-container {
+  height: 250px;
+  border-radius: 10px;
+  position: relative;
+  margin: 20px;
+  align-self: flex-start;
+}
+
+.character-img {
+  max-width: 100%;
+  height: 100%;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.character-title {
+  font-size: 1.5rem;
+  margin-top: 0;
+}
+
+.character-details {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 70%;
+}
+
+.character-description {
+  text-align: justify;
+}
+
+.comic-selector {
+  display: flex;
+}
+
+.comic-selector > .v-select {
+  margin: 10px;
+}
+</style>
