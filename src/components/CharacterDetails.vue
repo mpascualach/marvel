@@ -1,17 +1,32 @@
 <template>
   <div class="character-viewer" v-if="characterStore.selectedCharacter">
-    <p>Nombre: {{ characterStore.selectedCharacter.name }}</p>
-    <p>
-      Descripción:
-      {{ characterStore.selectedCharacter.description || "Ninguna por ahora" }}
-    </p>
-    <img
-      class="character-img"
-      :src="`${characterStore.selectedCharacter.thumbnail.path}.${characterStore.selectedCharacter.thumbnail.extension}`"
-    />
-    <v-select variant="outlined"></v-select>
-    <v-select variant="outlined"></v-select>
+    <div class="character-info">
+      <v-card
+        :title="characterStore.selectedCharacter.name"
+        :text="characterStore.selectedCharacter.description"
+      >
+      </v-card>
+      <div class="character-img-container">
+        <img
+          class="character-img"
+          :src="`${characterStore.selectedCharacter.thumbnail.path}.${characterStore.selectedCharacter.thumbnail.extension}`"
+        />
+      </div>
+    </div>
+
+    <div class="comic-selector">
+      <v-select
+        v-if="characterStore.selectedCharacter.comics"
+        variant="outlined"
+        label="comics"
+        :items="characterStore.selectedCharacter.comics.items"
+        item-title="name"
+      ></v-select>
+      <v-select variant="outlined"></v-select>
+    </div>
   </div>
+
+  <div class="selected-entry"></div>
 </template>
 
 <script setup>
@@ -36,5 +51,13 @@ watch(
 
 .character-img {
   width: 50%;
+}
+
+.comic-selector {
+  display: flex;
+}
+
+.comic-selector > .v-select {
+  margin: 10px;
 }
 </style>
