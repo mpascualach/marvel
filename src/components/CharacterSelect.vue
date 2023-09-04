@@ -1,15 +1,14 @@
 <template>
-  <div>
-    <select v-model="selectedCharacter">
-      <option value="Elige un personaje" disabled></option>
-      <option
-        v-for="character in characters"
-        :key="character.id"
-        :value="character.name"
-      ></option>
-    </select>
+  <div class="select-holder">
+    <v-select
+      v-model="selectedCharacter"
+      label="Elige un personaje"
+      :items="characters"
+      item-title="name"
+      return-object
+    >
+    </v-select>
   </div>
-  <template> </template>
 </template>
 
 <script>
@@ -33,13 +32,18 @@ export default {
       );
       try {
         const response = await api.get();
-        console.log(response);
-        const characters = response.json();
-        console.log(characters);
+        this.characters = response.data.results;
       } catch (error) {
         console.error("Error fetching characters:", error);
+        // algunas cosas aquí
       }
     },
   },
 };
 </script>
+
+<style scoped>
+.select-holder {
+  padding: 40px;
+}
+</style>
