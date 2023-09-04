@@ -14,14 +14,17 @@
 <script>
 import { mande } from "mande";
 import { useCharacterStore } from "../stores/characterStore";
+import { ref, watch } from "vue";
 
 export default {
   setup() {
-    const store = useCharacterStore();
+    const characterStore = useCharacterStore();
     const characters = ref([]);
-    const selectedCharacter = ref(store.selectedCharacter);
+    // const selectedCharacter = ref(characterStore.selectedCharacter);
+    const apiKey = import.meta.env.VITE_PUBLIC_KEY;
+
     const api = mande(
-      `https://gateway.marvel.com:443/v1/public/characters?apikey=${this.apiKey}`
+      `https://gateway.marvel.com:443/v1/public/characters?apikey=${apiKey}`
     );
 
     async function getCharacters() {
@@ -34,24 +37,24 @@ export default {
       }
     }
 
-    function selectCharacter(character) {
-      store.selectedCharacter = character;
-    }
+    // function selectCharacter(character) {
+    //   characterStore.selectedCharacter = character;
+    // }
 
-    watch(
-      () => store.selectedCharacter,
-      (newCharacter) => {
-        selectedCharacter.value = newCharacter;
-      }
-    );
+    // watch(
+    //   () => characterStore.selectedCharacter,
+    //   (newCharacter) => {
+    //     selectedCharacter.value = newCharacter;
+    //   }
+    // );
 
     getCharacters();
 
-    return {
-      characters,
-      selectedCharacter,
-      setSelectedCharacter,
-    };
+    // return {
+    //   characters,
+    //   selectedCharacter,
+    //   setSelectedCharacter,
+    // };
   },
 };
 </script>
