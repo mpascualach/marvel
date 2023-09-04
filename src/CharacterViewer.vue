@@ -7,6 +7,7 @@
     <div class="entry-viewer">
       <div class="entry-selectors">
         <v-select
+          v-model="characterStore.selectedComic.name"
           v-if="characterStore.selectedCharacter.comics"
           variant="solo"
           label="Comics"
@@ -16,6 +17,7 @@
           :menu-props="{ bottom: true }"
         ></v-select>
         <v-select
+          v-model="characterStore.selectedSeries.name"
           v-if="characterStore.selectedCharacter.series"
           variant="solo"
           label="Series"
@@ -27,8 +29,29 @@
       </div>
 
       <v-card v-if="characterStore.entrySelected" class="entry">
-        <div class="content comic"></div>
-        <div class="content series" v-if="characterStore.selectedSeries">
+        <div
+          class="content comic"
+          v-if="
+            characterStore.typeOfEntry == 'comic' &&
+            characterStore.selectedComic
+          "
+        >
+          <h2>{{ characterStore.selectedComic.title }}</h2>
+          <div
+            class="description"
+            v-html="characterStore.selectedComic.description"
+          ></div>
+          <img
+            :src="`${characterStore.selectedComic.thumbnail.path}.${characterStore.selectedComic.thumbnail.extension}`"
+          />
+        </div>
+        <div
+          class="content series"
+          v-if="
+            characterStore.typeOfEntry == 'series' &&
+            characterStore.selectedSeries
+          "
+        >
           <h2>{{ characterStore.selectedSeries.title }}</h2>
           <p>{{ characterStore.selectedSeries.description }}</p>
           <p>
@@ -77,6 +100,7 @@ const handleComicSelection = async (selectedValue) => {
     characterStore.entrySelected = true;
     characterStore.typeOfEntry = "comic";
     characterStore.selectedComic = data.results[0];
+    characterStore.selectedSeries = "";
   } catch (err) {
     console.error(err);
     // error handling aquí
@@ -107,9 +131,10 @@ const handleSeriesSelection = async (selectedValue) => {
     );
     console.log("Series: ", data);
     characterStore.entrySelected = true;
-    characterStore.typeOfEntry = "comic";
+    characterStore.typeOfEntry = "series";
     // parece que sólo hay un resultado dentro del results array...
     characterStore.selectedSeries = data.results[0];
+    characterStore.selectedComic = "";
   } catch (err) {
     console.error(err);
     // error handling aquí
@@ -139,6 +164,7 @@ const handleSeriesSelection = async (selectedValue) => {
 .entry {
   flex: 1 1 0%;
   padding: 10px 20px;
+  overflow-y: scroll;
 }
 
 .content {
@@ -146,5 +172,9 @@ const handleSeriesSelection = async (selectedValue) => {
   display: flex;
   flex-direction: column;
   gap: 10px;
+}
+
+.description {
+  padding: 20px;
 }
 </style>

@@ -10,6 +10,7 @@
     >
     </v-select>
   </div>
+  <p>{{ err }}</p>
 </template>
 
 <script setup>
@@ -22,6 +23,7 @@ const characterStore = useCharacterStore();
 const marvel = mande("https://gateway.marvel.com/v1/public", {
   apikey: import.meta.env.VITE_PUBLIC_KEY,
 });
+let err;
 
 onMounted(async () => {
   try {
@@ -29,7 +31,9 @@ onMounted(async () => {
       `/characters?apikey=${import.meta.env.VITE_PUBLIC_KEY}`
     );
     characterStore.characters = data.results;
+    console.log("Characters: ", data.results);
   } catch (error) {
+    err = error;
     console.error(error);
   }
 });
