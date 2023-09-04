@@ -1,61 +1,41 @@
 <template>
   <div class="select-holder">
     <v-select
-      v-model="selectedCharacter"
+      v-model="characterStore.selectedCharacter"
       label="Elige un personaje"
-      :items="characters"
+      :items="characterStore.characters"
       item-title="name"
-      return-object
+      variant="outlined"
+      @change="handleCharacterSelection"
     >
     </v-select>
   </div>
 </template>
 
-<script>
-import { mande } from "mande";
+<script setup>
 import { useCharacterStore } from "../stores/characterStore";
-import { ref, watch } from "vue";
+import { onMounted } from "vue";
+import { mande } from "mande";
 
-export default {
-  setup() {
-    const characterStore = useCharacterStore();
-    const characters = ref([]);
-    // const selectedCharacter = ref(characterStore.selectedCharacter);
-    const apiKey = import.meta.env.VITE_PUBLIC_KEY;
+const characterStore = useCharacterStore();
 
-    const api = mande(
-      `https://gateway.marvel.com:443/v1/public/characters?apikey=${apiKey}`
+const marvel = mande("https://gateway.marvel.com/v1/public", {
+  apikey: import.meta.env.VITE_PUBLIC_KEY,
+});
+
+onMounted(async () => {
+  try {
+    const { data } = await marvel.get(
+      `/characters?apikey=${import.meta.env.VITE_PUBLIC_KEY}`
     );
+    characterStore.characters = data.results;
+  } catch (error) {
+    console.error(error);
+  }
+});
 
-    async function getCharacters() {
-      try {
-        const response = await api.get();
-        characters.value = response.data.results;
-      } catch (error) {
-        console.error("Error fetching characters:", error);
-        // algunas cosas aquí
-      }
-    }
-
-    // function selectCharacter(character) {
-    //   characterStore.selectedCharacter = character;
-    // }
-
-    // watch(
-    //   () => characterStore.selectedCharacter,
-    //   (newCharacter) => {
-    //     selectedCharacter.value = newCharacter;
-    //   }
-    // );
-
-    getCharacters();
-
-    // return {
-    //   characters,
-    //   selectedCharacter,
-    //   setSelectedCharacter,
-    // };
-  },
+const handleCharacterSelection = (selectedValue) => {
+  characterStore.selectedCharacter = selectedValue;
 };
 </script>
 
