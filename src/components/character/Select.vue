@@ -13,7 +13,7 @@
 </template>
 
 <script setup>
-import { useCharacterStore } from "@/stores/characterStore";
+import { useCharacterStore } from "@/stores/CharacterStore";
 import { onMounted } from "vue";
 import { mande } from "mande";
 
@@ -45,5 +45,6 @@ const handleCharacterSelection = (selectedValue) => {
 <style scoped>
 .select-holder {
   padding: 40px;
+  padding-bottom: 10px;
 }
 </style>

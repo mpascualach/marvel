@@ -4,25 +4,28 @@
       <Details :character="characterStore.selectedCharacter" />
     </div>
 
-    <div class="comic-selector">
-      <v-select
-        v-if="characterStore.selectedCharacter.comics"
-        variant="outlined"
-        label="Comics"
-        :items="characterStore.selectedCharacter.comics.items"
-        item-title="name"
-        @update:model-value="handleComicSelection"
-        :menu-props="{ bottom: true }"
-      ></v-select>
-      <v-select
-        v-if="characterStore.selectedCharacter.series"
-        variant="outlined"
-        label="Series"
-        :items="characterStore.selectedCharacter.series.items"
-        item-title="name"
-        @update:model-value="handleSeriesSelection"
-        :menu-props="{ bottom: true }"
-      ></v-select>
+    <div class="entry-viewer">
+      <div class="entry-selectors">
+        <v-select
+          v-if="characterStore.selectedCharacter.comics"
+          variant="outlined"
+          label="Comics"
+          :items="characterStore.selectedCharacter.comics.items"
+          item-title="name"
+          @update:model-value="handleComicSelection"
+          :menu-props="{ bottom: true }"
+        ></v-select>
+        <v-select
+          v-if="characterStore.selectedCharacter.series"
+          variant="outlined"
+          label="Series"
+          :items="characterStore.selectedCharacter.series.items"
+          item-title="name"
+          @update:model-value="handleSeriesSelection"
+          :menu-props="{ bottom: true }"
+        ></v-select>
+      </div>
+      <div class="entry-details"></div>
     </div>
   </div>
 
@@ -30,25 +33,56 @@
 </template>
 
 <script setup>
-import { useCharacterStore } from "@/stores/characterStore";
-import { watch } from "vue";
+import { useCharacterStore } from "@/stores/CharacterStore";
+import { mande } from "mande";
 
 import Details from "./components/character/Details.vue";
 
 const characterStore = useCharacterStore();
+
+const handleComicSelection = async (selectedValue) => {
+  const selectedComic = characterStore.selectedCharacter.comics.items.find(
+    (comic) => comic.name === selectedValue
+  );
+
+  // una solución sucia ante algo raro que hace mande con urls ya producidas
+  const resourceURI = selectedComic.resourceURI;
+  const parts = resourceURI.split("/");
+  const lastPart = parts[parts.length - 1];
+  const comicId = parseInt(lastPart);
+
+  const lastSlashIndex = resourceURI.lastIndexOf("/");
+  const URIWithoutID = resourceURI.substring(0, lastSlashIndex);
+  // saqué el ID del cómic para luego remeterla dentro de la llamada API
+
+  const comicFinder = mande(URIWithoutID, {
+    apikey: import.meta.env.VITE_PUBLIC_KEY,
+  });
+
+  try {
+    const { data } = await comicFinder.get(
+      `/${comicId}?apikey=${import.meta.env.VITE_PUBLIC_KEY}`
+    );
+    console.log("Data: ", data);
+  } catch (err) {
+    console.error(err);
+    // error handling aquí
+  }
+  // characterStore.selectedComic = selectedComic;
+};
 </script>
 
 <style scoped>
 .character-viewer {
   padding: 0px 40px;
 }
-
 .card-holder {
   margin-bottom: 20px;
 }
-@media (max-width: 1105px) {
-  .character-viewer {
-    grid-template-columns: 1fr;
-  }
+
+.entry-selectors {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
 }
 </style>

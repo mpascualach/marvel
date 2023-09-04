@@ -11,7 +11,7 @@
 <script setup>
 import Select from "./components/character/Select.vue";
 import CharacterViewer from "./CharacterViewer.vue";
-import { useCharacterStore } from "@/stores/characterStore";
+import { useCharacterStore } from "@/stores/CharacterStore";
 
 import { ref, watch } from "vue";
 
