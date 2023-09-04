@@ -34,10 +34,6 @@ onMounted(async () => {
   }
 });
 
-const debugInputEvent = (event) => {
-  console.log("Input event fired:", event);
-};
-
 const handleCharacterSelection = (selectedValue) => {
   const selectedChar = characterStore.characters.find(
     (char) => char.name === selectedValue

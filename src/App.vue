@@ -2,7 +2,7 @@
   <v-app>
     <v-main>
       <CharacterSelect />
-      <p>Selected character: {{ selectedCharacter.name }}</p>
+      <!-- <p>Selected character: {{ selectedCharacter.name }}</p> -->
       <CharacterDetails />
     </v-main>
   </v-app>
