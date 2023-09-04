@@ -13,4 +13,4 @@ export const useCharacterStore = pinia.createStore({
   },
 });
 
-export default pinia;
+export default useCharacterStore;

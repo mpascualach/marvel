@@ -13,4 +13,16 @@ import HelloWorld from "@/components/HelloWorld.vue";
 import CharacterSelect from "./components/CharacterSelect.vue";
 import { useCharacterStore } from "./stores/characterStore";
 import { ref, watch } from "vue";
+
+const store = useCharacterStore();
+const selectedCharacter = ref(store.selectedCharacter);
+
+watch(
+  () => store.selectedCharacter,
+  (newCharacter) => {
+    selectedCharacter.value = newCharacter;
+  }
+);
 </script>
+
+<style scoped></style>
