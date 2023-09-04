@@ -25,7 +25,9 @@
           :menu-props="{ bottom: true }"
         ></v-select>
       </div>
-      <div class="entry-details"></div>
+      <div class="entry-details">
+        <v-card> </v-card>
+      </div>
     </div>
   </div>
 
@@ -63,12 +65,46 @@ const handleComicSelection = async (selectedValue) => {
     const { data } = await comicFinder.get(
       `/${comicId}?apikey=${import.meta.env.VITE_PUBLIC_KEY}`
     );
-    console.log("Data: ", data);
+    characterStore.entrySelected = true;
+    characterStore.typeOfEntry = "comic";
+    characterStore.selectedComic = data.results[0];
   } catch (err) {
     console.error(err);
     // error handling aquí
   }
-  // characterStore.selectedComic = selectedComic;
+};
+
+const handleSeriesSelection = async (selectedValue) => {
+  // básicamente lo mismo que handleComicSelection - quizás las pueda combinar
+  const selectedSeries = characterStore.selectedCharacter.series.items.find(
+    (series) => series.name === selectedValue
+  );
+
+  const resourceURI = selectedSeries.resourceURI;
+  const parts = resourceURI.split("/");
+  const lastPart = parts[parts.length - 1];
+  const seriesId = parseInt(lastPart);
+
+  const lastSlashIndex = resourceURI.lastIndexOf("/");
+  const URIWithoutID = resourceURI.substring(0, lastSlashIndex);
+
+  const seriesFinder = mande(URIWithoutID, {
+    apikey: import.meta.env.VITE_PUBLIC_KEY,
+  });
+
+  try {
+    const { data } = await seriesFinder.get(
+      `/${seriesId}?apikey=${import.meta.env.VITE_PUBLIC_KEY}`
+    );
+    console.log("Series: ", data);
+    characterStore.entrySelected = true;
+    characterStore.typeOfEntry = "comic";
+    // parece que sólo hay un resultado dentro del results array...
+    characterStore.selectedSeries = data.results[0];
+  } catch (err) {
+    console.error(err);
+    // error handling aquí
+  }
 };
 </script>
 
