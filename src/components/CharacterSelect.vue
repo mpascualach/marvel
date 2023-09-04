@@ -6,7 +6,7 @@
       :items="characterStore.characters"
       item-title="name"
       variant="outlined"
-      @change="handleCharacterSelection"
+      @update:modelValue="handleCharacterSelection"
     >
     </v-select>
   </div>
@@ -34,8 +34,15 @@ onMounted(async () => {
   }
 });
 
+const debugInputEvent = (event) => {
+  console.log("Input event fired:", event);
+};
+
 const handleCharacterSelection = (selectedValue) => {
-  characterStore.selectedCharacter = selectedValue;
+  const selectedChar = characterStore.characters.find(
+    (char) => char.name === selectedValue
+  );
+  characterStore.selectedCharacter = selectedChar;
 };
 </script>
 
