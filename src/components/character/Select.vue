@@ -5,7 +5,8 @@
       label="Elige un personaje"
       :items="characterStore.characters"
       item-title="name"
-      variant="solo"
+      item-value="id"
+      variant="outlined"
       @update:modelValue="handleCharacterSelection"
     >
     </v-select>
@@ -40,7 +41,7 @@ onMounted(async () => {
 
 const handleCharacterSelection = (selectedValue) => {
   const selectedChar = characterStore.characters.find(
-    (char) => char.name === selectedValue
+    (char) => char.id === selectedValue
   );
   characterStore.selectedCharacter = selectedChar;
   // reseteando el entry - por si se había establecido antes

@@ -7,22 +7,22 @@
     <div class="entry-viewer">
       <div class="entry-selectors">
         <v-select
-          v-model="characterStore.selectedComic.name"
           v-if="characterStore.selectedCharacter.comics"
           variant="solo"
           label="Comics"
           :items="characterStore.selectedCharacter.comics.items"
           item-title="name"
+          item-value="id"
           @update:model-value="handleComicSelection"
           :menu-props="{ bottom: true }"
         ></v-select>
         <v-select
-          v-model="characterStore.selectedSeries.name"
           v-if="characterStore.selectedCharacter.series"
           variant="solo"
           label="Series"
           :items="characterStore.selectedCharacter.series.items"
           item-title="name"
+          item-value="id"
           @update:model-value="handleSeriesSelection"
           :menu-props="{ bottom: true }"
         ></v-select>
@@ -42,6 +42,7 @@
             v-html="characterStore.selectedComic.description"
           ></div>
           <img
+            v-if="characterStore.selectedComic.thumbnail"
             :src="`${characterStore.selectedComic.thumbnail.path}.${characterStore.selectedComic.thumbnail.extension}`"
           />
         </div>
@@ -69,15 +70,20 @@
 <script setup>
 import { useCharacterStore } from "@/stores/CharacterStore";
 import { mande } from "mande";
+import { watch } from "vue";
 
 import Details from "./components/character/Details.vue";
 
 const characterStore = useCharacterStore();
 
+// por razones que tenga que ver con mostrar estos comics en los v-select
+let selectedComic, selectedSeries;
+
 const handleComicSelection = async (selectedValue) => {
-  const selectedComic = characterStore.selectedCharacter.comics.items.find(
+  selectedComic = characterStore.selectedCharacter.comics.items.find(
     (comic) => comic.name === selectedValue
   );
+  if (selectedSeries) selectedSeries = null;
 
   // una solución sucia ante algo raro que hace mande con urls ya producidas
   const resourceURI = selectedComic.resourceURI;
@@ -100,6 +106,7 @@ const handleComicSelection = async (selectedValue) => {
     characterStore.entrySelected = true;
     characterStore.typeOfEntry = "comic";
     characterStore.selectedComic = data.results[0];
+    console.log(characterStore.selectedComic);
     characterStore.selectedSeries = "";
   } catch (err) {
     console.error(err);
@@ -109,10 +116,12 @@ const handleComicSelection = async (selectedValue) => {
 
 const handleSeriesSelection = async (selectedValue) => {
   // básicamente lo mismo que handleComicSelection - quizás las pueda combinar
-  const selectedSeries = characterStore.selectedCharacter.series.items.find(
+  console.log(selectedValue);
+  selectedSeries = characterStore.selectedCharacter.series.items.find(
     (series) => series.name === selectedValue
   );
-
+  if (selectedComic) selectedComic = null;
+  console.log(selectedSeries);
   const resourceURI = selectedSeries.resourceURI;
   const parts = resourceURI.split("/");
   const lastPart = parts[parts.length - 1];
@@ -176,5 +185,11 @@ const handleSeriesSelection = async (selectedValue) => {
 
 .description {
   padding: 20px;
+}
+
+.entry-selectors {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
 }
 </style>

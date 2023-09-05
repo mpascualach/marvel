@@ -7,6 +7,7 @@ export const useCharacterStore = defineStore("CharacterStore", () => {
 
   const entrySelected = ref(false);
   const typeOfEntry = ref(null);
+
   const selectedComic = ref(null);
   const selectedSeries = ref(null);
 

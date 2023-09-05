@@ -11,19 +11,12 @@
 <script setup>
 import Select from "./components/character/Select.vue";
 import CharacterViewer from "./CharacterViewer.vue";
-import { useCharacterStore } from "@/stores/CharacterStore";
 
-import { ref, watch } from "vue";
+import { onMounted } from "vue";
 
-const store = useCharacterStore();
-const selectedCharacter = ref(store.selectedCharacter);
-
-watch(
-  () => store.selectedCharacter,
-  (newCharacter) => {
-    selectedCharacter.value = newCharacter;
-  }
-);
+onMounted(() => {
+  document.title = "Marvel Character Viewer";
+});
 </script>
 
 <style scoped></style>
