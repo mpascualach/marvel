@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "build": "vite build",
-    "test:unit": "vue-cli-service test:unit",
+    "test": "vitest",
     "dev": "vite",
     "preview": "vite preview"
   },
@@ -28,6 +28,7 @@
     "sass": "^1.66.1",
     "sass-loader": "^13.3.2",
     "vite": "^4.2.0",
-    "vite-plugin-vuetify": "^1.0.0"
+    "vite-plugin-vuetify": "^1.0.0",
+    "vitest": "^0.34.3"
   }
 }
