@@ -2,7 +2,9 @@
   <v-app>
     <v-btn icon @click="toggleTheme" class="theme-toggle-button">
       <v-icon>{{
-        darkMode ? "mdi-white-balance-sunny" : "mdi-moon-waxing-crescent"
+        theme.global.current.value.dark
+          ? "mdi-white-balance-sunny"
+          : "mdi-moon-waxing-crescent"
       }}</v-icon>
     </v-btn>
     <v-main>
@@ -19,21 +21,16 @@ import Select from "./components/character/Select.vue";
 import CharacterViewer from "./CharacterViewer.vue";
 
 import { onMounted, ref } from "vue";
-import vuetify from "./plugins/vuetify";
+import { useTheme } from "vuetify";
 
 import { useErrorStore } from "./stores/ErrorStore";
 
 const darkMode = ref(false);
 const errorStore = useErrorStore();
-
-onMounted(() => {
-  document.title = "Marvel Character Viewer";
-});
+const theme = useTheme();
 
 const toggleTheme = () => {
-  darkMode.value = !darkMode.value;
-  console.log(vuetify);
-  vuetify.theme.dark = darkMode.value;
+  theme.global.name.value = theme.global.current.value.dark ? "light" : "dark";
 };
 </script>
 
