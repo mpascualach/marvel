@@ -7,6 +7,7 @@
       item-value="id"
       variant="solo"
       @update:modelValue="handleCharacterSelection"
+      :menu-props="{ openOnClear: characterStore.characters.length > 0 }"
     >
     </v-select>
     <div class="character-searcher">
@@ -30,9 +31,7 @@
 
 <script setup>
 import { useCharacterStore } from "@/stores/CharacterStore";
-import { onMounted, watch } from "vue";
 import { mande } from "mande";
-import { debounce } from "lodash";
 
 const characterStore = useCharacterStore();
 
@@ -56,8 +55,6 @@ const searchCharacters = async () => {
     console.log(error);
   }
 };
-
-const searchCharactersDebounced = debounce(searchCharacters, 300);
 
 const handleCharacterSelection = (selectedValue) => {
   const selectedChar = characterStore.characters.find(
@@ -95,13 +92,5 @@ const handleCharacterSelection = (selectedValue) => {
   position: absolute;
   top: 20%;
   right: -5%;
-}
-
-.character-selector :deep(.v-field__outline) {
-  --v-field-border-opacity: 0 !important;
-}
-
-:deep(.vield__outline) {
-  --v-field-border-opacity: 0 !important;
 }
 </style>
