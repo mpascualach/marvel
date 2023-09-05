@@ -2,8 +2,9 @@
   "name": "marvel-vuetify",
   "version": "0.0.0",
   "scripts": {
-    "dev": "vite",
     "build": "vite build",
+    "test:unit": "vue-cli-service test:unit",
+    "dev": "vite",
     "preview": "vite preview"
   },
   "dependencies": {
@@ -19,6 +20,11 @@
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^4.0.0",
+    "@vue/cli-plugin-unit-jest": "~5.0.0",
+    "@vue/test-utils": "^2.0.0-0",
+    "@vue/vue3-jest": "^27.0.0-alpha.1",
+    "babel-jest": "^27.0.6",
+    "jest": "^27.0.5",
     "sass": "^1.66.1",
     "sass-loader": "^13.3.2",
     "vite": "^4.2.0",
