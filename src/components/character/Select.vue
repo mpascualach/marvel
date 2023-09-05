@@ -9,6 +9,7 @@
       variant="outlined"
       @update:modelValue="handleCharacterSelection"
     >
+      <input />
     </v-select>
   </div>
   <p>{{ err }}</p>
@@ -27,6 +28,7 @@ const marvel = mande("https://gateway.marvel.com/v1/public", {
 let err;
 
 onMounted(async () => {
+  // iniciar listado de personajes - se limita a 20 por defecto en el API
   try {
     const { data } = await marvel.get(
       `/characters?apikey=${import.meta.env.VITE_PUBLIC_KEY}`
