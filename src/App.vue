@@ -6,6 +6,7 @@
       }}</v-icon>
     </v-btn>
     <v-main>
+      {{ errorStore.errorText }}
       <Select />
       <!-- <p>Selected character: {{ selectedCharacter.name }}</p> -->
       <CharacterViewer />
@@ -20,17 +21,19 @@ import CharacterViewer from "./CharacterViewer.vue";
 import { onMounted, ref } from "vue";
 import vuetify from "./plugins/vuetify";
 
+import { useErrorStore } from "./stores/ErrorStore";
+
 const darkMode = ref(false);
+const errorStore = useErrorStore();
 
 onMounted(() => {
   document.title = "Marvel Character Viewer";
 });
 
 const toggleTheme = () => {
-  console.log("toggleTheme");
   darkMode.value = !darkMode.value;
   console.log(vuetify);
-  vuetify.framework.theme.dark = darkMode.value;
+  vuetify.theme.dark = darkMode.value;
 };
 </script>
 

@@ -3,6 +3,7 @@ import { ref } from "vue";
 
 export const useCharacterStore = defineStore("CharacterStore", () => {
   const characters = ref([]);
+  const searchedCharacter = ref(null);
   const selectedCharacter = ref(null);
 
   const entrySelected = ref(false);
@@ -13,6 +14,7 @@ export const useCharacterStore = defineStore("CharacterStore", () => {
 
   return {
     characters,
+    searchedCharacter,
     selectedCharacter,
     entrySelected,
     typeOfEntry,

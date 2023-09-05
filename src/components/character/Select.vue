@@ -12,7 +12,7 @@
     </v-select>
     <div class="character-searcher">
       <v-text-field
-        v-model="searchKeyword"
+        v-model="characterStore.searchedCharacter"
         :placeholder="
           characterStore.selectedCharacter
             ? characterStore.selectedCharacter.name
@@ -31,28 +31,33 @@
 
 <script setup>
 import { useCharacterStore } from "@/stores/CharacterStore";
+import useErrorStore from "@/stores/ErrorStore";
 import { mande } from "mande";
 
+// registro de los stores
 const characterStore = useCharacterStore();
+const errorStore = useErrorStore();
 
+// aqui se acceded al api
 const marvel = mande("https://gateway.marvel.com/v1/public", {
   apikey: import.meta.env.VITE_PUBLIC_KEY,
 });
 let searchKeyword = "";
 
 const searchCharacters = async () => {
+  // estoy dejando el limite por ahora a 20
   try {
     const { data } = await marvel.get(
       `/characters?nameStartsWith=${searchKeyword}&apikey=${
         import.meta.env.VITE_PUBLIC_KEY
       }`
     );
+    // llenando listado de personajes
     characterStore.characters = data.results;
-    console.log("Characters: ", characterStore.characters);
+    // reseteando keyword
     searchKeyword = "";
   } catch (error) {
-    err = error;
-    console.log(error);
+    errorStore.errorText = error.message;
   }
 };
 
@@ -61,6 +66,7 @@ const handleCharacterSelection = (selectedValue) => {
     (char) => char.id === selectedValue
   );
   characterStore.selectedCharacter = selectedChar;
+  characterStore.searchedCharacter = selectedChar;
   // reseteando el entry - por si se había establecido antes
   characterStore.entrySelected = false;
 };

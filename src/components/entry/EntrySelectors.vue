@@ -61,9 +61,8 @@ const handleComicSelection = async (selectedValue) => {
     characterStore.selectedComic = data.results[0];
     console.log(characterStore.selectedComic);
     characterStore.selectedSeries = "";
-  } catch (err) {
-    console.error(err);
-    // error handling aquí
+  } catch (error) {
+    errorStore.errorText = error.message;
   }
 };
 
@@ -91,15 +90,13 @@ const handleSeriesSelection = async (selectedValue) => {
     const { data } = await seriesFinder.get(
       `/${seriesId}?apikey=${import.meta.env.VITE_PUBLIC_KEY}`
     );
-    console.log("Series: ", data);
     characterStore.entrySelected = true;
     characterStore.typeOfEntry = "series";
     // parece que sólo hay un resultado dentro del results array...
     characterStore.selectedSeries = data.results[0];
     characterStore.selectedComic = "";
-  } catch (err) {
-    console.error(err);
-    // error handling aquí
+  } catch (error) {
+    errorStore.errorText = error.message;
   }
 };
 </script>

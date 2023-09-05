@@ -5,6 +5,7 @@ import { createVuetify } from "vuetify";
 
 export default createVuetify({
   theme: {
+    dark: false,
     themes: {
       light: {
         colors: {
