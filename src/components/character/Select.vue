@@ -5,7 +5,7 @@
       :items="characterStore.characters"
       item-title="name"
       item-value="id"
-      variant="outlined"
+      variant="solo"
       @update:modelValue="handleCharacterSelection"
     >
     </v-select>
@@ -17,7 +17,7 @@
             ? characterStore.selectedCharacter.name
             : 'Busca o selecciona tu personaje'
         "
-        variant="outlined"
+        variant="solo"
         @update:modelValue="searchCharacters"
       ></v-text-field>
       <div class="characters-counter">
@@ -97,9 +97,11 @@ const handleCharacterSelection = (selectedValue) => {
   right: -5%;
 }
 
-.v-select .v-select__selection {
-  position: absolute;
-  top: 0;
-  bottom: -10%;
+.character-selector :deep(.v-field__outline) {
+  --v-field-border-opacity: 0 !important;
+}
+
+:deep(.vield__outline) {
+  --v-field-border-opacity: 0 !important;
 }
 </style>
