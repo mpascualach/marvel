@@ -1,26 +1,28 @@
-/**
- * plugins/vuetify.js
- *
- * Framework documentation: https://vuetifyjs.com`
- */
-
-// Styles
-import '@mdi/font/css/materialdesignicons.css'
-import 'vuetify/styles'
+import "@mdi/font/css/materialdesignicons.css";
+import "vuetify/styles";
 
 // Composables
-import { createVuetify } from 'vuetify'
+import { createVuetify } from "vuetify";
+import { VSelect } from "vuetify/components/VSelect";
+import { VTextField } from "vuetify/components/VTextField";
 
-// https://vuetifyjs.com/en/introduction/why-vuetify/#feature-guides
 export default createVuetify({
+  defaults: {
+    VSelect: {
+      style: [{ border: "2px" }],
+    },
+    VTextField: {
+      style: [{ border: "none" }],
+    },
+  },
   theme: {
     themes: {
       light: {
         colors: {
-          primary: '#1867C0',
-          secondary: '#5CBBF6',
+          primary: "#1867C0",
+          secondary: "#5CBBF6",
         },
       },
     },
   },
-})
+});
