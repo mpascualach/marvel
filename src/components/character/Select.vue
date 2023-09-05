@@ -2,7 +2,6 @@
   <div class="select-holder">
     <v-select
       class="character-select"
-      v-model="characterStore.selectedCharacter"
       :items="characterStore.characters"
       item-title="name"
       item-value="id"
@@ -13,15 +12,20 @@
     <div class="character-searcher">
       <v-text-field
         v-model="searchKeyword"
-        placeholder="Busca o selecciona tu personaje"
+        :placeholder="
+          characterStore.selectedCharacter
+            ? characterStore.selectedCharacter.name
+            : 'Busca o selecciona tu personaje'
+        "
         variant="outlined"
+        @update:modelValue="searchCharacters"
       ></v-text-field>
       <div class="characters-counter">
         <p>{{ characterStore.characters.length }}</p>
       </div>
     </div>
   </div>
-  <p>{{ err }}</p>
+  <!-- <p>{{ err }}</p> -->
 </template>
 
 <script setup>
@@ -35,28 +39,18 @@ const characterStore = useCharacterStore();
 const marvel = mande("https://gateway.marvel.com/v1/public", {
   apikey: import.meta.env.VITE_PUBLIC_KEY,
 });
-let err, searchKeyword;
-
-// const getInitialListOfCharacters = async () => {
-//   try {
-//     const { data } = await marvel.get(
-//       `/characters?apikey=${import.meta.env.VITE_PUBLIC_KEY}`
-//     );
-//     characterStore.characters = data.results;
-//   } catch (error) {
-//     err = error;
-//     console.error(error);
-//   }
-// };
+let searchKeyword = "";
 
 const searchCharacters = async () => {
-  console.log(searchKeyword);
   try {
     const { data } = await marvel.get(
       `/characters?nameStartsWith=${searchKeyword}&apikey=${
         import.meta.env.VITE_PUBLIC_KEY
       }`
     );
+    characterStore.characters = data.results;
+    console.log("Characters: ", characterStore.characters);
+    searchKeyword = "";
   } catch (error) {
     err = error;
     console.log(error);
@@ -64,15 +58,6 @@ const searchCharacters = async () => {
 };
 
 const searchCharactersDebounced = debounce(searchCharacters, 300);
-
-watch(searchKeyword, () => {
-  console.log("Watching searchKeyword: ", searchKeyword);
-  if (searchKeyword.length > 0) {
-    searchCharactersDebounced();
-  } else {
-    characterStore.characters = [];
-  }
-});
 
 const handleCharacterSelection = (selectedValue) => {
   const selectedChar = characterStore.characters.find(
@@ -110,5 +95,11 @@ const handleCharacterSelection = (selectedValue) => {
   position: absolute;
   top: 20%;
   right: -5%;
+}
+
+.v-select .v-select__selection {
+  position: absolute;
+  top: 0;
+  bottom: -10%;
 }
 </style>
