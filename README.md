@@ -1,44 +1,63 @@
-# default
+# Marvel Characters Explorer 🦸
 
-## Project setup
+Explora a tus personajes favoritos del universo Marvel y descubre en qué cómics y series han aparecido. Esta aplicación utiliza la API de Marvel para brindarte toda la información que necesitas al alcance de tus manos.
 
-```
-# yarn
-yarn
+## Características 🌟
 
-# npm
-npm install
+- Búsqueda de personajes de Marvel.
+- Detalles completos de cada personaje, incluyendo una descripción, imagen y lista de apariciones en cómics y series.
+- Diseño responsivo, adecuado para dispositivos móviles y de escritorio.
 
-# pnpm
-pnpm install
-```
+## Tecnologías Utilizadas 🛠️
 
-### Compiles and hot-reloads for development
+- **Vue 3**: Marco de trabajo progresivo para construir interfaces de usuario.
+- **Vuetify**: Biblioteca de componentes de Vue para diseñar de acuerdo con los principios de Material Design.
+- **Pinia**: Estado de la tienda utilizado para administrar y almacenar información.
+- **Vite**: Herramienta de construcción que ofrece un entorno de desarrollo más rápido y una optimización superior en la etapa de producción.
 
-```
-# yarn
-yarn dev
+## Instalación y Uso 🚀
 
-# npm
-npm run dev
+1. **Clonar el repositorio**
 
-# pnpm
-pnpm dev
-```
+````bash
+git clone https://github.com/mpascualach/marvel.git
+cd nombre-de-tu-proyecto
 
-### Compiles and minifies for production
+2. **Instalar dependencias**
 
-```
-# yarn
-yarn build
+    Utilizando npm:
 
-# npm
-npm run build
+    ```bash
+    npm install
+    ```
 
-# pnpm
-pnpm build
-```
+    O utilizando yarn:
 
-### Customize configuration
+    ```bash
+    yarn
+    ```
 
-See [Configuration Reference](https://vitejs.dev/config/).
+    3. **Ejecutar la aplicación**
+
+    ```bash
+    npm run dev
+    ```
+
+    O si estás utilizando yarn:
+
+    ```bash
+    yarn dev
+    ```
+
+4. Abre tu navegador y ve a `http://localhost:3000`. ¡Disfruta explorando el universo Marvel!
+
+## Licencia 📄
+
+[MIT](https://choosealicense.com/licenses/mit/)
+Con esta estructura, las secciones de código deberían mostrarse correctamente en el archivo README.md cuando lo veas en plataformas que renderizan Markdown, como GitHub.
+
+
+
+
+
+````

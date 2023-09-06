@@ -3,13 +3,14 @@
   "version": "0.0.0",
   "scripts": {
     "build": "vite build",
-    "test": "vitest",
+    "test": "vitest --dom",
     "dev": "vite",
     "preview": "vite preview"
   },
   "dependencies": {
     "@mdi/font": "7.0.96",
     "@vue/test-utils": "^2.4.1",
+    "happy-dom": "^6.0.4",
     "lodash": "^4.17.21",
     "mande": "^2.0.7",
     "pinia": "^2.1.6",
